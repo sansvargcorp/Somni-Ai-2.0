@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - Somni AI</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- PayPal SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id=BAAkG-FXxYga_FNSogVneiRPidsy1Xyx_5-isM0kwA7ygPTSXyYH3HxxQ9H0RcW_JLdAV25pUyDiR0F4Bw&components=hosted-buttons&disable-funding=venmo&currency=USD"></script>
+</head>
+<body class="dark-mode">
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">⭕ Somni</div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+            <div class="theme-toggle">🌙</div>
+        </div>
+    </nav>
+
+    <section class="pricing-hero" style="padding:6rem 2rem 4rem;">
+        <div class="container">
+            <h1>Pricing</h1>
+            <p style="text-align:center; opacity:0.8; margin-bottom:3rem;">One-time payment. Lifetime access.</p>
+            
+            <!-- PROMO CODE - VISIBLE BUT SUBTLE -->
+            <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:2rem; max-width:500px; margin:0 auto 3rem; text-align:center;">
+                <h3>Promo Code</h3>
+                <input id="promo-input" placeholder="Enter TEST123..." style="width:70%; padding:1rem; border:1px solid rgba(255,255,255,0.2); border-radius:8px; background:rgba(255,255,255,0.1); color:inherit; margin-right:1rem;">
+                <button class="cta-primary" onclick="applyPromoCode()">Unlock Elite</button>
+            </div>
+
+            <div class="pricing-grid">
+                <div class="price-card free">
+                    <h3>Free</h3>
+                    <div class="price">$0</div>
+                    <ul>
+                        <li>✓ Sleep debt tracker</li>
+                        <li>✓ Basic routine</li>
+                        <li>✓ 7-day history</li>
+                    </ul>
+                    <a href="login.html" class="cta-primary">Start Free</a>
+                </div>
+
+                <div class="price-card core">
+                    <h3>Core <span style="font-size:0.8rem;">$9.99/year</span></h3>
+                    <div id="paypal-core-container"></div>
+                    <ul>
+                        <li>✓ Sport adjustment</li>
+                        <li>✓ Feeling AI</li>
+                        <li>✓ Full history</li>
+                    </ul>
+                </div>
+
+                <div class="price-card pro">
+                    <h3>Pro <span style="font-size:0.8rem;">$29.99/year</span></h3>
+                    <div id="paypal-pro-container"></div>
+                    <ul>
+                        <li>✓ Weekly planner</li>
+                        <li>✓ Habit optimizer</li>
+                        <li>✓ Full AI Coach</li>
+                    </ul>
+                </div>
+
+                <div class="price-card elite">
+                    <h3>Elite <span style="font-size:0.8rem;">$99.99 LIFETIME</span></h3>
+                    <div id="paypal-elite-container"></div>
+                    <ul>
+                        <li>✓ Everything forever</li>
+                        <li>✓ Advanced analytics</li>
+                        <li>✓ Priority features</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+    <script>
+        // PayPal with Plan Unlocks
+        paypal.HostedButtons({
+            hostedButtonId: "PXP2X6MMCT2XJ", // Core
+            onApproved: () => { setPlan('core'); window.location.href = 'dashboard.html'; }
+        }).render("#paypal-core-container");
+
+        paypal.HostedButtons({
+            hostedButtonId: "Z5PAEPZMQ5HD2", // Pro
+            onApproved: () => { setPlan('pro'); window.location.href = 'dashboard.html'; }
+        }).render("#paypal-pro-container");
+
+        paypal.HostedButtons({
+            hostedButtonId: "MNTEEM7ZNE4NJ", // Elite
+            onApproved: () => { setPlan('elite'); window.location.href = 'dashboard.html'; }
+        }).render("#paypal-elite-container");
+    </script>
+</body>
+</html>
