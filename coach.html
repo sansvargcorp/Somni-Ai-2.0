@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Coach - Somni AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-mode">
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">⭕ Somni</div>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+            <div class="theme-toggle">🌙</div>
+        </nav>
+
+    <section style="padding:6rem 2rem 4rem; min-height:100vh;">
+        <div class="container">
+            <h1 style="font-size:2.2rem; text-align:center; margin-bottom:2rem;">Sleep Coach</h1>
+            <p style="text-align:center; opacity:0.8; margin-bottom:3rem;">Ask about sleep debt, routines, recovery</p>
+            
+            <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:2rem; max-width:700px; margin:0 auto 2rem; height:400px; overflow-y:auto;" id="chat-messages">
+                <div style="opacity:0.6; text-align:center;">Your debt is ${calculateDebt()}h. Ask me how to fix it.</div>
+            </div>
+            
+            <div style="max-width:700px; margin:0 auto;">
+                <div style="display:flex; gap:1rem;">
+                    <input id="coach-question" placeholder="I can't sleep before 1am..." style="flex:1; padding:1rem; border:1px solid rgba(255,255,255,0.2); border-radius:8px; background:rgba(255,255,255,0.1); color:inherit;">
+                    <button class="cta-primary" onclick="askCoach()">Ask</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="script.js"></script>
+    <script>
+        function calculateDebt() {
+            const user = JSON.parse(localStorage.getItem('somni_user') || '{}');
+            return calculateDebtLocal(user.logs || [], user.sportMod || 0);
+        }
+        
+        function askCoach() {
+            const question = document.getElementById('coach-question').value.toLowerCase();
+            const messages = document.getElementById('chat-messages');
+            const userDebt = calculateDebt();
+            
+            let response = '';
+            if (question.includes('late') || question.includes('1am') || question.includes('midnight')) {
+                response = `Your ${userDebt}h debt needs 10:20-10:40pm bedtime window. Screen cutoff 9:45pm. Debt compounds 0.7h/night if you sleep past midnight.`;
+            } else if (question.includes('weekend') || question.includes('saturday')) {
+                response = `Friday: controlled damage (+2h tolerance). Sunday: recovery night (9h+ target). Mon-Thu: strict 8h30m.`;
+            } else if (question.includes('tired') || question.includes('fatigue')) {
+                response = `Your ${userDebt}h debt explains fatigue. Tonight needs ${(userDebt/5).toFixed(1)}h recovery above baseline.`;
+            } else {
+                response = `Debt math: Your ${userDebt}h debt ÷ 5 = recovery nights needed. Focus bedtime window first.`;
+            }
+            
+            messages.innerHTML += `
+                <div style="margin:1rem 0; padding:1rem; background:rgba(59,130,246,0.2); border-radius:12px; border-left:3px solid #3b82f6;">
+                    <strong>You:</strong> ${question}
+                </div>
+                <div style="margin:1rem 0; padding:1.5rem; background:rgba(255,255,255,0.1); border-radius:12px;">
+                    <strong>Coach:</strong> ${response}
+                </div>
+            `;
+            messages.scrollTop = messages.scrollHeight;
+            document.getElementById('coach-question').value = '';
+        }
+        
+        function calculateDebtLocal(logs, sportMod) {
+            const weekAgo = Date.now() - 7*24*60*60*1000;
+            const recent = logs.filter(l => l.timestamp > weekAgo);
+            const ideal = (7.5 + sportMod) * 7;
+            const actual = recent.reduce((sum, l) => sum + (l.duration || 0), 0);
+            return Math.max(0, ideal - actual).toFixed(1);
+        }
+    </script>
+</body>
+</html>
