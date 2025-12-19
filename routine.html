@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tonight's Routine - Somni AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-mode">
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">⭕ Somni</div>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="log-sleep.html">Log</a></li>
+            </ul>
+            <div class="theme-toggle">🌙</div>
+        </nav>
+
+    <section style="padding:6rem 2rem 4rem;">
+        <div class="container">
+            <h1 style="font-size:2.5rem; text-align:center; margin-bottom:3rem;">Tonight's Routine</h1>
+            <div id="routine-plan" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:3rem; max-width:600px; margin:0 auto;">
+                <div id="routine-steps"></div>
+                <div id="recovery-indicator" style="margin-top:2rem; padding:1.5rem; border-radius:12px;"></div>
+            </div>
+        </div>
+    </section>
+    <script src="script.js"></script>
+    <script>
+        const user = JSON.parse(localStorage.getItem('somni_user') || '{}');
+        const debt = calculateDebt(user.logs || [], user.sportMod || 0);
+        const day = new Date().getDay();
+        const isRecovery = day === 0 || debt > 5; // Sunday or high debt
+        
+        document.getElementById('routine-steps').innerHTML = `
+            <div style="text-align:center; font-size:1.3rem; margin-bottom:2rem;">
+                <strong>${isRecovery ? 'RECOVERY NIGHT' : 'REGULAR NIGHT'}</strong><br>
+                Target: ${isRecovery ? '9h 15m' : '8h 30m'}
+            </div>
+            <ol style="text-align:left; max-width:400px; margin:0 auto; font-size:1.1rem; line-height:1.8;">
+                <li>Screen cutoff: ${isRecovery ? '9:15 PM' : '9:45 PM'}</li>
+                <li>Wind-down: ${isRecovery ? '9:35 PM' : '10:05 PM'}</li>
+                <li>Bedtime window: ${isRecovery ? '9:50-10:10 PM' : '10:20-10:40 PM'}</li>
+                <li>Target sleep: ${isRecovery ? '9h 15m' : '8h 30m'}</li>
+            </ol>
+        `;
+        
+        document.getElementById('recovery-indicator').innerHTML = `
+            <div style="background:${isRecovery ? 'rgba(34,197,94,0.2)' : 'rgba(59,130,246,0.2)'}; border:1px solid ${isRecovery ? 'rgba(34,197,94,0.4)' : 'rgba(59,130,246,0.4)'}; padding:1.5rem; border-radius:12px; text-align:center;">
+                <strong>${debt}h debt detected</strong><br>
+                ${isRecovery ? 'Recovery prioritized' : 'Maintain consistency'}
+            </div>
+        `;
+        
+        function calculateDebt(logs, sportMod) {
+            const weekAgo = Date.now() - 7*24*60*60*1000;
+            const recent = logs.filter(l => l.timestamp > weekAgo);
+            const ideal = (7.5 + sportMod) * 7;
+            const actual = recent.reduce((sum, l) => sum + (l.duration || 0), 0);
+            return Math.max(0, ideal - actual);
+        }
+    </script>
+</body>
+</html>
