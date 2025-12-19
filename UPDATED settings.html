@@ -1,0 +1,36 @@
+<!-- Add this section to existing settings.html inside the grid -->
+<div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:2rem;">
+    <h3>Sleep Profile</h3>
+    <div style="display:grid; gap:1rem;">
+        <input id="profile-age" type="number" placeholder="Age" value="" style="padding:0.8rem; border:1px solid rgba(255,255,255,0.2); border-radius:8px; background:rgba(255,255,255,0.1); color:inherit;">
+        <input id="profile-weight" type="number" placeholder="Weight (lbs)" style="padding:0.8rem; border:1px solid rgba(255,255,255,0.2); border-radius:8px; background:rgba(255,255,255,0.1); color:inherit;">
+        <select id="profile-sport" style="padding:0.8rem; border:1px solid rgba(255,255,255,0.2); border-radius:8px; background:rgba(255,255,255,0.1); color:inherit;">
+            <option value="0">Sedentary</option>
+            <option value="0.3">Light Walks</option>
+            <option value="0.5">Gym</option>
+            <option value="0.7">Running</option>
+            <option value="0.8">Cycling</option>
+            <option value="0.9">CrossFit</option>
+            <option value="1.0">Athlete</option>
+            <option value="1.1">Marathon</option>
+            <option value="1.2">Powerlifting</option>
+            <option value="1.3">MMA</option>
+            <option value="1.4">Triathlon</option>
+            <option value="1.5">Elite</option>
+        </select>
+        <button class="cta-primary" onclick="saveProfile()" style="width:100%;">Save Profile</button>
+    </div>
+</div>
+
+<script>
+function saveProfile() {
+    const profile = {
+        age: parseInt(document.getElementById('profile-age').value),
+        weight: parseInt(document.getElementById('profile-weight').value),
+        sport: document.getElementById('profile-sport').value
+    };
+    user.profile = profile;
+    localStorage.setItem('somni_user', JSON.stringify(user));
+    alert('✅ Profile saved - affects all calculations');
+}
+</script>
