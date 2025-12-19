@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Somni AI - Track Sleep Like Calories</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-mode">
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">⭕ Somni</div>
+            <ul class="nav-menu">
+                <li><a href="#how">How</a></li>
+                <li><a href="#science">Science</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+            <div class="theme-toggle">🌙</div>
+        </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="logo-symbol">⭕</div>
+            <h1>Track Sleep Like Calories</h1>
+            <p>Precise calculator with age, weight, 12 sports.</p>
+            
+            <!-- ENHANCED CALCULATOR -->
+            <div class="demo-calculator">
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Bedtime</label>
+                        <input type="time" id="demo-bed" value="23:00">
+                    </div>
+                    <div class="input-group">
+                        <label>Wake time</label>
+                        <input type="time" id="demo-wake" value="07:00">
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Age</label>
+                        <input type="number" id="demo-age" value="30" min="16" max="80">
+                    </div>
+                    <div class="input-group">
+                        <label>Weight (lbs)</label>
+                        <input type="number" id="demo-weight" value="170" min="80" max="400">
+                    </div>
+                </div>
+                <div class="input-row">
+                    <div class="input-group full-width">
+                        <label>Sport/Activity</label>
+                        <select id="demo-sport">
+                            <option value="0">Sedentary (Office)</option>
+                            <option value="0.3">Light Walks</option>
+                            <option value="0.5">Gym (3x/week)</option>
+                            <option value="0.7">Running (20mi/wk)</option>
+                            <option value="0.8">Cycling</option>
+                            <option value="0.9">CrossFit</option>
+                            <option value="1.0">Athlete (Daily)</option>
+                            <option value="1.1">Marathon Training</option>
+                            <option value="1.2">Powerlifting</option>
+                            <option value="1.3">MMA/Boxing</option>
+                            <option value="1.4">Triathlon</option>
+                            <option value="1.5">Elite Athlete</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="cta-primary" onclick="calculateAdvancedDebt()">Calculate Debt</button>
+                <div id="demo-result"></div>
+            </div>
+
+            <div class="hero-buttons">
+                <a href="login.html" class="cta-primary">Start Tracking</a>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
