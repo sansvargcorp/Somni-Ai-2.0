@@ -1,0 +1,15 @@
+<!-- Add to dashboard debt display -->
+<div id="profile-impact" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:12px; padding:1.5rem; margin:2rem 0; font-size:0.95rem;">
+    <div id="profile-factors">Loading profile...</div>
+</div>
+
+<script>
+if (user.profile) {
+    const p = user.profile;
+    document.getElementById('profile-factors').innerHTML = `
+        Age ${p.age}: ${p.age < 18 ? '+1h need' : p.age < 50 ? 'Normal' : '-0.5h need'} |
+        ${p.weight}lbs: ${p.weight > 200 ? 'Higher demand' : 'Normal'} |
+        Sport ${parseFloat(p.sport).toFixed(1)}x: +${(parseFloat(p.sport)*100).toFixed(0)}% need
+    `;
+}
+</script>
