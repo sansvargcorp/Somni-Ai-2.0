@@ -1,0 +1,69 @@
+// ADVANCED SLEEP DEBT CALCULATOR with Age/Weight/Sports
+function calculateAdvancedDebt() {
+    // Inputs
+    const bed = document.getElementById('demo-bed').value;
+    const wake = document.getElementById('demo-wake').value;
+    const age = parseInt(document.getElementById('demo-age').value);
+    const weight = parseInt(document.getElementById('demo-weight').value);
+    const sportMod = parseFloat(document.getElementById('demo-sport').value);
+    
+    // Calculate sleep duration
+    const bedTime = new Date('2000-01-01T' + bed);
+    const wakeTime = new Date('2000-01-01T' + wake);
+    let duration = (wakeTime - bedTime) / (1000 * 60 * 60);
+    if (duration < 0) duration += 24;
+    
+    // BASE SLEEP NEED (Age-based)
+    let baseNeed = 7.5;
+    if (age < 18) baseNeed = 8.5 + (sportMod * 0.5);
+    else if (age < 30) baseNeed = 7.75 + (sportMod * 0.8);
+    else if (age < 50) baseNeed = 7.25 + (sportMod * 0.7);
+    else baseNeed = 7.0 + (sportMod * 0.6);
+    
+    // WEIGHT MODIFIER (Metabolic demand)
+    const weightMod = Math.max(0.9, Math.min(1.1, (weight / 165) * 0.95));
+    
+    // FINAL IDEAL SLEEP
+    const idealNightly = baseNeed * weightMod;
+    const idealWeekly = idealNightly * 7;
+    const actualWeekly = duration * 7;
+    const weeklyDebt = Math.max(0, idealWeekly - actualWeekly);
+    
+    // DEBT CLASSIFICATION
+    let debtLevel = 'manageable';
+    let color = '#3b82f6';
+    if (weeklyDebt > 15) { debtLevel = 'critical'; color = '#ef4444'; }
+    else if (weeklyDebt > 8) { debtLevel = 'high'; color = '#f59e0b'; }
+    
+    document.getElementById('demo-result').innerHTML = `
+        <div style="text-align:center;">
+            <div style="font-size:2.2rem; color:${color}; font-weight:700; margin:1rem 0;">
+                ${weeklyDebt.toFixed(1)}h <span style="font-size:1.2rem;">weekly debt</span>
+            </div>
+            <div style="background:rgba(255,255,255,0.1); padding:1.5rem; border-radius:12px; margin:1rem 0;">
+                <p><strong>Your profile:</strong></p>
+                <p>• Sleep: ${duration.toFixed(1)}h/night</p>
+                <p>• Ideal need: ${idealNightly.toFixed(1)}h/night</p>
+                <p>• Age factor: ${(age < 18 ? '+1h' : age < 50 ? '+0.25h' : 'baseline')}</p>
+                <p>• Weight: ${(weightMod > 1 ? 'higher' : 'lower')} demand</p>
+                <p>• Sport: +${sportMod * 100}% need</p>
+            </div>
+            <div style="opacity:0.8; margin:1rem 0;">Debt level: <strong>${debtLevel}</strong></div>
+            <a href="login.html" class="cta-primary" style="margin-top:1.5rem;">Fix This Free →</a>
+        </div>
+    `;
+}
+
+// AUTO-CALCULATE ON INPUT CHANGE
+document.addEventListener('DOMContentLoaded', () => {
+    ['demo-bed', 'demo-wake', 'demo-age', 'demo-weight', 'demo-sport'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.oninput = calculateAdvancedDebt;
+    });
+    calculateAdvancedDebt(); // Initial calculation
+});
+
+// BACKWARDS COMPATIBLE - Old calculator still works
+function calculateDemoDebt() {
+    calculateAdvancedDebt(); // Uses new advanced version
+}
