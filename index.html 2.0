@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Somni AI - Track Sleep Like Calories</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-mode">
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">⭕ Somni</div>
+            <ul class="nav-menu">
+                <li><a href="#how">How</a></li>
+                <li><a href="#science">Science</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+            <div class="theme-toggle">🌙</div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="logo-symbol">⭕</div>
+            <h1>Track Sleep Like Calories</h1>
+            <p>Precise sleep debt. Minimum routine. Engineered.</p>
+            
+            <!-- WORKING DEMO -->
+            <div class="demo-calculator">
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>Bedtime</label>
+                        <input type="time" id="demo-bed" value="23:00">
+                    </div>
+                    <div class="input-group">
+                        <label>Wake time</label>
+                        <input type="time" id="demo-wake" value="07:00">
+                    </div>
+                </div>
+                <div class="input-row">
+                    <select id="demo-sport">
+                        <option value="0">No sport</option>
+                        <option value="0.5">Gym</option>
+                        <option value="1">Athlete</option>
+                    </select>
+                    <button class="cta-primary" onclick="calculateDemoDebt()">Calculate Debt</button>
+                </div>
+                <div id="demo-result"></div>
+            </div>
+
+            <div class="hero-buttons">
+                <a href="login.html" class="cta-primary">Start Free</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="how" class="section">
+        <div class="container">
+            <h2>3 Steps</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <div class="icon">1</div>
+                    <h3>Log Sleep</h3>
+                    <p>Bed + wake time. Instant calculation.</p>
+                </div>
+                <div class="card">
+                    <div class="icon">2</div>
+                    <h3>Get Routine</h3>
+                    <p>4 steps max. Screen cutoff → bedtime.</p>
+                </div>
+                <div class="card">
+                    <div class="icon">3</div>
+                    <h3>AI Coach</h3>
+                    <p>Sleep debt answers only. No fluff.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
