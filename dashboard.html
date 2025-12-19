@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Somni AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-mode">
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">⭕ Somni</div>
+            <ul class="nav-menu">
+                <li><a href="#">Debt</a></li>
+                <li><a href="log-sleep.html">Log</a></li>
+                <li><a href="routine.html">Tonight</a></li>
+                <li><a href="coach.html">Coach</a></li>
+                <li><a href="pricing.html">Upgrade</a></li>
+            </ul>
+            <div class="theme-toggle">🌙</div>
+        </nav>
+
+    <section style="padding:6rem 2rem 4rem;">
+        <div class="container">
+            <div class="debt-display">
+                <h1 id="current-debt">0.0h</h1>
+                <p>Weekly sleep debt</p>
+            </div>
+            <div style="text-align:center;margin:3rem 0;">
+                <a href="log-sleep.html" class="cta-primary" style="margin-right:1rem;">Log Last Night</a>
+                <a href="routine.html" class="cta-primary">Tonight's Routine</a>
+            </div>
+            <div style="text-align:center;color:#3b82f6;font-weight:500;" id="plan-status">Free Plan</div>
+        </div>
+    </section>
+    <script src="script.js"></script>
+    <script>
+        // Load dashboard data
+        const user = JSON.parse(localStorage.getItem('somni_user'));
+        if (user && user.logs.length) {
+            document.getElementById('current-debt').textContent = '2.3h'; // Demo
+            document.getElementById('plan-status').textContent = user.plan + ' Plan';
+        }
+    </script>
+</body>
+</html>
