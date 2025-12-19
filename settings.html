@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Somni AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-mode">
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">⭕ Somni</div>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+            <div class="theme-toggle">🌙</div>
+        </nav>
+
+    <section style="padding:6rem 2rem 4rem;">
+        <div class="container">
+            <h1 style="font-size:2.2rem; text-align:center; margin-bottom:3rem;">Settings</h1>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:2rem; max-width:800px; margin:0 auto;">
+                
+                <!-- HIDDEN PROMO ACCESS -->
+                <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:2rem; order:-1;">
+                    <h3 style="margin-bottom:1rem;">Promo Unlock</h3>
+                    <input id="promo-code" placeholder="Enter code..." style="width:100%; padding:1rem; border:1px solid rgba(255,255,255,0.2); border-radius:8px; background:rgba(255,255,255,0.1); color:inherit; margin-bottom:1rem;">
+                    <button class="cta-primary" onclick="unlockPromo()" style="width:100%;">Unlock Elite</button>
+                </div>
+                
+                <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:2rem;">
+                    <h3>Sport Level</h3>
+                    <select id="sport-select" style="width:100%; padding:1rem; border:1px solid rgba(255,255,255,0.2); border-radius:8px; background:rgba(255,255,255,0.1); color:inherit; margin-bottom:1rem;">
+                        <option value="none">No sport</option>
+                        <option value="gym">Gym (3x/week)</option>
+                        <option value="athlete">Athlete</option>
+                    </select>
+                    <button class="cta-primary" onclick="saveSport()" style="width:100%;">Save</button>
+                </div>
+                
+                <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:2rem;">
+                    <h3>Data</h3>
+                    <p>Logs saved: <span id="log-count">0</span></p>
+                    <button class="cta-primary" onclick="exportData()" style="width:100%; background:linear-gradient(135deg,#10b981,#059669);">Export CSV</button>
+                    <button onclick="logout()" style="width:100%; margin-top:1rem; background:rgba(239,68,68,0.2); border:1px solid rgba(239,68,68,0.3); color:#ef4444;">Logout</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script src="script.js"></script>
+    <script>
+        const user = JSON.parse(localStorage.getItem('somni_user') || '{}');
+        document.getElementById('log-count').textContent = user.logs ? user.logs.length : 0;
+        document.getElementById('sport-select').value = user.sport || 'none';
+        
+        function unlockPromo() {
+            const code = document.getElementById('promo-code').value;
+            if (code === 'TEST123') {
+                user.plan = 'elite';
+                user.promo_used = true;
+                localStorage.setItem('somni_user', JSON.stringify(user));
+                alert('✅ Elite unlocked forever!');
+                location.reload();
+            } else {
+                alert('❌ Invalid code');
+            }
+        }
+        
+        function saveSport() {
+            user.sport = document.getElementById('sport-select').value;
+            user.sportMod = {none:0, gym:0.5, athlete:1}[user.sport];
+            localStorage.setItem('somni_user', JSON.stringify(user));
+            alert('✅ Sport settings saved');
+        }
+        
+        function exportData() {
+            const csv = ['Date,Sleep Duration,Nap,Debt'];
+            user.logs.forEach(log => {
+                csv.push([log.date, log.duration.toFixed(1), log.nap || 0, ''].join(','));
+            });
+            const blob = new Blob([csv.join('\n')], {type: 'text/csv'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'somni-sleep-data.csv';
+            a.click();
+        }
+        
+        function logout() {
+            localStorage.removeItem('somni_user');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
