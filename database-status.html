@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Status - Somni AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-mode">
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">⭕ Somni DB</div>
+            <div class="theme-toggle">🌙</div>
+        </nav>
+
+    <section style="padding:4rem 2rem;">
+        <div class="container">
+            <h1>Database Status</h1>
+            <div id="db-stats" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:1.5rem; margin-top:2rem;">
+                <!-- Populated by JS -->
+            </div>
+            <div style="margin-top:3rem; text-align:center;">
+                <button class="cta-primary" onclick="clearAllData()">⚠️ Clear All Data</button>
+            </div>
+        </div>
+    </section>
+    <script>
+        const user = JSON.parse(localStorage.getItem('somni_user') || '{}');
+        const stats = document.getElementById('db-stats');
+        
+        stats.innerHTML = `
+            <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:2rem; text-align:center;">
+                <h3>User</h3>
+                <p>${user.username || 'No user'}</p>
+                <p>Plan: <strong>${user.plan?.toUpperCase() || 'FREE'}</strong></p>
+                ${user.promo_used ? '<p style="color:#10b981;">⭐ PROMO ELITE</p>' : ''}
+            </div>
+            <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:2rem; text-align:center;">
+                <h3>Sleep Logs</h3>
+                <p><strong>${user.logs?.length || 0}</strong> entries</p>
+                <p>Latest: ${user.logs?.[user.logs.length-1]?.date || 'None'}</p>
+            </div>
+            <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:2rem; text-align:center;">
+                <h3>Debt</h3>
+                <p><strong>${calculateDebt(user.logs || [], user.sportMod || 0).toFixed(1)}h</strong></p>
+                <p>Sport: ${user.sport || 'none'}</p>
+            </div>
+        `;
+        
+        function calculateDebt(logs, sportMod) {
+            const weekAgo = Date.now() - 7*24*60*60*1000;
+            const recent = logs.filter(l => l.timestamp > weekAgo);
+            const ideal = (7.5 + sportMod) * 7;
+            const actual = recent.reduce((sum, l) => sum + (l.duration || 0), 0);
+            return Math.max(0, ideal - actual);
+        }
+        
+        function clearAllData() {
+            if (confirm('Delete ALL data?')) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+    </script>
+</body>
+</html>
