@@ -1,0 +1,92 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { 
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.6; 
+    overflow-x: hidden;
+}
+body.dark-mode { 
+    background: #0f0f23; 
+    color: #e2e8f0;
+}
+body.light-mode { 
+    background: #f8fafc; 
+    color: #1e293b;
+}
+
+/* Navbar - Subtle */
+.navbar { 
+    position: sticky; top: 0; width: 100%; 
+    background: rgba(15,15,35,0.95); 
+    backdrop-filter: blur(10px); 
+    border-bottom: 1px solid rgba(255,255,255,0.1); 
+    z-index: 100;
+}
+.nav-container { 
+    max-width: 1200px; margin: 0 auto; 
+    padding: 1rem 2rem; display: flex; 
+    justify-content: space-between; align-items: center; 
+}
+.logo { font-size: 1.4rem; font-weight: 700; }
+.nav-menu { display: flex; list-style: none; gap: 1.5rem; }
+.nav-menu a { color: inherit; text-decoration: none; font-weight: 500; padding: 0.5rem 1rem; border-radius: 8px; transition: background 0.2s; }
+.nav-menu a:hover { background: rgba(255,255,255,0.1); }
+.theme-toggle { font-size: 1.4rem; cursor: pointer; padding: 0.5rem; border-radius: 50%; transition: background 0.2s; }
+.theme-toggle:hover { background: rgba(255,255,255,0.1); }
+
+/* Hero - Clean */
+.hero { padding: 6rem 2rem 4rem; text-align: center; min-height: 100vh; display: flex; align-items: center; }
+.hero-content { max-width: 800px; margin: 0 auto; }
+.logo-symbol { font-size: 3rem; margin-bottom: 1.5rem; opacity: 0.8; }
+.hero h1 { font-size: 2.8rem; font-weight: 700; margin-bottom: 1rem; background: linear-gradient(135deg, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero p { font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9; }
+
+/* Demo - Fixed */
+.demo-calculator { 
+    background: rgba(255,255,255,0.08); 
+    border: 1px solid rgba(255,255,255,0.15); 
+    border-radius: 16px; padding: 2rem; margin: 2rem 0; 
+}
+.input-row { display: flex; gap: 1rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+.input-group { flex: 1; min-width: 180px; }
+.input-group label { display: block; margin-bottom: 0.5rem; font-weight: 500; }
+input, select { 
+    width: 100%; padding: 0.8rem; border: 1px solid rgba(255,255,255,0.2); 
+    border-radius: 8px; background: rgba(255,255,255,0.1); 
+    color: inherit; font-size: 1rem; 
+}
+#demo-result { margin-top: 1.5rem; padding: 1.5rem; background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); border-radius: 12px; }
+
+/* Buttons - Clean */
+.cta-primary { 
+    padding: 1rem 2rem; background: linear-gradient(135deg, #3b82f6, #8b5cf6); 
+    color: white; border: none; border-radius: 25px; font-weight: 600; 
+    cursor: pointer; font-size: 1rem; text-decoration: none; display: inline-block; 
+    transition: all 0.2s; box-shadow: 0 4px 15px rgba(59,130,246,0.3);
+}
+.cta-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(59,130,246,0.4); }
+
+/* Sections - Scrollable */
+.section { padding: 4rem 0; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+h2 { text-align: center; font-size: 2.2rem; margin-bottom: 3rem; font-weight: 700; }
+
+/* Cards - Subtle */
+.grid-3, .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+.card { 
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); 
+    border-radius: 16px; padding: 2rem; text-align: center; transition: all 0.2s;
+}
+.card:hover { transform: translateY(-4px); border-color: rgba(59,130,246,0.4); }
+.icon { width: 50px; height: 50px; background: rgba(59,130,246,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 700; color: #3b82f6; margin: 0 auto 1rem; }
+
+/* Dashboard */
+.debt-display h1 { font-size: 4rem !important; font-weight: 800; text-align: center; background: linear-gradient(135deg, #ef4444, #f59e0b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem; }
+
+/* Responsive - Perfect Mobile/Desktop */
+@media (max-width: 768px) {
+    .nav-menu { display: none; }
+    .input-row { flex-direction: column; }
+    .hero h1 { font-size: 2.2rem !important; }
+    .debt-display h1 { font-size: 3rem !important; }
+}
+
