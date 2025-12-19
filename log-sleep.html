@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Sleep - Somni AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-mode">
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">⭕ Somni</div>
+            <ul class="nav-menu">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="#">Log Sleep</a></li>
+                <li><a href="routine.html">Tonight</a></li>
+            </ul>
+            <div class="theme-toggle">🌙</div>
+        </div>
+    </nav>
+
+    <section style="padding:6rem 2rem 4rem; min-height:100vh; display:flex; align-items:center;">
+        <div class="container">
+            <div style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:16px; padding:3rem; max-width:500px; margin:0 auto;">
+                <h1 style="font-size:2rem; text-align:center; margin-bottom:2rem;">Log Last Night</h1>
+                <form id="sleep-form">
+                    <div class="input-group">
+                        <label>Bedtime</label>
+                        <input type="time" id="bedtime" value="23:00" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Wake time</label>
+                        <input type="time" id="waketime" value="07:00" required>
+                    </div>
+                    <div class="input-group">
+                        <label>Nap (optional)</label>
+                        <input type="number" id="nap" placeholder="0" step="0.5" min="0" max="3">
+                    </div>
+                    <button type="submit" class="cta-primary" style="width:100%; margin-top:1.5rem;">Save Night</button>
+                </form>
+                <div id="result" style="margin-top:2rem; padding:1rem; border-radius:8px; text-align:center;"></div>
+            </div>
+        </div>
+    </section>
+    <script src="script.js"></script>
+    <script>
+        document.getElementById('sleep-form').onsubmit = (e) => {
+            e.preventDefault();
+            const bedtime = document.getElementById('bedtime').value;
+            const waketime = document.getElementById('waketime').value;
+            const nap = parseFloat(document.getElementById('nap').value) || 0;
+            
+            const bedTime = new Date('2000-01-01T' + bedtime);
+            const wakeTime = new Date('2000-01-01T' + waketime);
+            let duration = (wakeTime - bedTime) / (1000 * 60 * 60);
+            if (duration < 0) duration += 24;
+            
+            const totalSleep = duration + nap;
+            const sleepLog = {
+                bedtime, waketime, nap, duration: totalSleep,
+                timestamp: Date.now(),
+                date: new Date().toISOString().split('T')[0]
+            };
+            
+            // SAVE TO DATABASE
+            const user = JSON.parse(localStorage.getItem('somni_user') || '{}');
+            if (!user.logs) user.logs = [];
+            user.logs.push(sleepLog);
+            localStorage.setItem('somni_user', JSON.stringify(user));
+            
+            document.getElementById('result').innerHTML = `
+                <div style="color:#10b981; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); padding:1rem; border-radius:8px;">
+                    ✅ Saved! Slept ${totalSleep.toFixed(1)}h<br>
+                    <a href="dashboard.html" class="cta-primary" style="margin-top:1rem; display:inline-block;">View Dashboard</a>
+                </div>
+            `;
+        };
+    </script>
+</body>
+</html>
