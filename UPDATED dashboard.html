@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Somni AI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-mode">
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">⭕ Somni</div>
+            <ul class="nav-menu">
+                <li><a href="#">Debt</a></li>
+                <li><a href="log-sleep.html">Log</a></li>
+                <li><a href="routine.html">Tonight</a></li>
+                <li><a href="coach.html" class="locked">Coach</a></li>
+                <li id="feeling-nav" class="locked"><a href="feeling.html">Feeling</a></li>
+                <li id="weekly-nav" class="locked"><a href="weekly.html">Weekly</a></li>
+                <li><a href="pricing.html">Upgrade</a></li>
+                <li><a href="settings.html">⚙️</a></li>
+            </ul>
+            <div class="theme-toggle">🌙</div>
+        </div>
+    </nav>
+
+    <section style="padding:6rem 2rem 4rem;">
+        <div class="container">
+            <div class="debt-display" style="text-align:center; margin-bottom:3rem;">
+                <h1 id="current-debt">0.0h</h1>
+                <p>Weekly sleep debt</p>
+            </div>
+            
+            <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-bottom:3rem;">
+                <a href="log-sleep.html" class="cta-primary">Log Sleep</a>
+                <a href="routine.html" class="cta-primary">Tonight</a>
+            </div>
+            
+            <div id="plan-status" style="text-align:center; color:#3b82f6; font-weight:500; font-size:1.1rem;">
+                Loading...
+            </div>
+            
+            <!-- Feature Teasers -->
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:2rem; margin-top:4rem;">
+                <div class="card" onclick="if(hasFeature('feeling')) window.location.href='feeling.html'; else window.location.href='pricing.html'">
+                    <div class="icon">😴</div>
+                    <h3>How You Feel</h3>
+                    <p id="feeling-teaser">Log energy levels (Core+)</p>
+                </div>
+                <div class="card" onclick="if(hasFeature('weekly')) window.location.href='weekly.html'; else window.location.href='pricing.html'">
+                    <div class="icon">📊</div>
+                    <h3>Weekly Plan</h3>
+                    <p id="weekly-teaser">Recovery schedule (Pro+)</p>
+                </div>
+                <div class="card" onclick="window.location.href='coach.html'">
+                    <div class="icon">🤖</div>
+                    <h3>AI Coach</h3>
+                    <p>Debt-based answers (Pro+)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <script src="script.js"></script>
+</body>
+</html>
